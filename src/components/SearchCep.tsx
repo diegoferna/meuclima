@@ -59,7 +59,7 @@ export default function SearchLocation() {
           fetchLocations(e.target.value);
         }}
         placeholder="Digite um local..."
-        className="w-full border p-2 rounded-md text-gray-900"
+        className="w-full rounded-lg border border-gray-300 bg-white p-3 text-gray-900 shadow-sm outline-none transition-all duration-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-300"
       />
 
       {loading && <p className="text-gray-500 text-sm">Carregando...</p>}
