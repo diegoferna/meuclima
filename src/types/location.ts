@@ -1,5 +1,7 @@
 export interface Location_Serach {
-  display_name: string;
-  lat: string;
-  lon: string;
+  name: string;
+  country: string;
+  admin1: string;
+  latitude: string;
+  longitude: string;
 }

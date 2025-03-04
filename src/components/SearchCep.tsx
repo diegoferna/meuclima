@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLocationStore } from "@/store/useLocationStore";
 import { useWeatherStore } from "@/store/useWeatherStore";
+import { Location_Serach } from "@/types/location";
 
 const CEP_API_URL = process.env.NEXT_PUBLIC_CEP_API_URL;
 
@@ -24,9 +25,10 @@ export default function SearchLocation() {
         )}&count=3&language=pt&format=json`
       );
       const data = await response.json();
+      console.log("dados", data);
       if (data.results) {
         setSuggestions(
-          data.results.map((place: any) => ({
+          data.results.map((place: Location_Serach) => ({
             name: `${place.name}, ${place.admin1 || place.country}`,
             lat: place.latitude,
             lon: place.longitude,

@@ -28,7 +28,7 @@ export default function WeatherWidget() {
 
   useEffect(() => {
     getLocationAndFetchWeather();
-  }, []);
+  });
   if (error) return <p className="text-red-400">{error}</p>;
 
   const weatherIcons: Record<string, JSX.Element> = {
