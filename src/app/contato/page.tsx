@@ -12,11 +12,42 @@ export default function Contato() {
     arquivo: null as File | null,
   });
 
+  const [errors, setErrors] = useState({
+    nome: "",
+    email: "",
+    mensagem: "",
+  });
+
+  const validateForm = () => {
+    let valid = true;
+    const newErrors = { nome: "", email: "", mensagem: "" };
+
+    if (!formData.nome.trim()) {
+      newErrors.nome = "O nome é obrigatório.";
+      valid = false;
+    }
+    if (!formData.email.trim()) {
+      newErrors.email = "O e-mail é obrigatório.";
+      valid = false;
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "E-mail inválido.";
+      valid = false;
+    }
+    if (!formData.mensagem.trim()) {
+      newErrors.mensagem = "A mensagem não pode estar vazia.";
+      valid = false;
+    }
+
+    setErrors(newErrors);
+    return valid;
+  };
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    setErrors((prev) => ({ ...prev, [name]: "" })); // Remove o erro ao digitar
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,13 +63,24 @@ export default function Contato() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validateForm()) return;
+
+    console.log("Enviando:", formData);
+
+    setFormData({
+      nome: "",
+      email: "",
+      mensagem: "",
+      arquivo: null,
+    });
   };
 
   return (
-    <div className=" ">
+    <div>
       <Menu />
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 ">
-        <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg ">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+        <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">
             Entre em Contato
           </h2>
@@ -52,8 +94,13 @@ export default function Contato() {
                 value={formData.nome}
                 onChange={handleChange}
                 required
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring ${
+                  errors.nome ? "border-red-500" : "focus:ring-blue-300"
+                }`}
               />
+              {errors.nome && (
+                <p className="text-red-500 text-sm">{errors.nome}</p>
+              )}
             </div>
 
             <div>
@@ -64,8 +111,13 @@ export default function Contato() {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring ${
+                  errors.email ? "border-red-500" : "focus:ring-blue-300"
+                }`}
               />
+              {errors.email && (
+                <p className="text-red-500 text-sm">{errors.email}</p>
+              )}
             </div>
 
             <div>
@@ -78,8 +130,13 @@ export default function Contato() {
                 onChange={handleChange}
                 required
                 rows={4}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring ${
+                  errors.mensagem ? "border-red-500" : "focus:ring-blue-300"
+                }`}
               ></textarea>
+              {errors.mensagem && (
+                <p className="text-red-500 text-sm">{errors.mensagem}</p>
+              )}
             </div>
 
             <div>

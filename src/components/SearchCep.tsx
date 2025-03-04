@@ -25,7 +25,6 @@ export default function SearchLocation() {
         )}&count=3&language=pt&format=json`
       );
       const data = await response.json();
-      console.log("dados", data);
       if (data.results) {
         setSuggestions(
           data.results.map((place: Location_Serach) => ({
